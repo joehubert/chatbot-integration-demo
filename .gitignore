@@ -1,0 +1,40 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+build/
+.env
+.env.local
+.DS_Store
+
+# Logs
+logs
+*.log
+
+# OS generated files
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Dependency directories
+bower_components/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Coverage directory
+coverage/
+
+# Misc
+*.tgz
+*.gz
+*.zip
+*.bak
+*.tmp
+
+# Other setup files
+mkdirs.sh

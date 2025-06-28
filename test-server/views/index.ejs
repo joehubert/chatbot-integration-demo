@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDN Integration Test - Chatbot Widget Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .demo-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #007bff;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #0056b3;
+        }
+
+        .config-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .config-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+        }
+
+        .btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Chatbot Widget Integration Demo</h1>
+            <p>CDN Script Tag Integration Test</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="/">CDN Integration</a>
+            <a href="/npm-test">NPM Package</a>
+            <a href="/iframe-test">Iframe Embed</a>
+            <a href="/mobile-test">Mobile Test</a>
+            <a href="/corporate-sim">Corporate Demo</a>
+            <a href="/ecommerce-sim">E-commerce Demo</a>
+        </div>
+
+        <div class="demo-section">
+            <h2>📦 CDN Integration Method</h2>
+            <p>This page demonstrates the simplest way to integrate the chatbot widget using a CDN script tag. This
+                method requires no build tools and works with any website.</p>
+
+            <h3>Implementation Code:</h3>
+            <div class="code-block">
+                &lt;!-- Step 1: Configure the widget --&gt;
+                &lt;script&gt;
+                window.ChatbotConfig = {
+                apiEndpoint: '<%= process.env.BASE_URL || 'http://localhost:3000' %>/api/chat',
+                    theme: '<%= process.env.DEFAULT_WIDGET_THEME || 'corporate-blue' %>',
+                        position: '<%= process.env.DEFAULT_WIDGET_POSITION || 'bottom-right' %>',
+                            greeting: '<%= process.env.DEFAULT_GREETING || 'Hello! How can I help you today?' %>',
+                                orgId: '<%= process.env.DEFAULT_ORG_ID || 'demo-org' %>',
+                                    autoOpen: false,
+                                    showTyping: true
+                                    };
+                                    &lt;/script&gt;
+
+                                    &lt;!-- Step 2: Load the widget script --&gt;
+                                    &lt;script src="<%= process.env.BASE_URL || 'http://localhost:3000' %>
+                                        /widget/chatbot-widget.js"&gt;&lt;/script&gt;
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>⚙️ Configuration Options</h2>
+            <div class="config-options">
+                <div class="config-item">
+                    <h4>Theme Options</h4>
+                    <button class="btn" onclick="changeTheme('corporate-blue')">Corporate Blue</button>
+                    <button class="btn" onclick="changeTheme('warm-orange')">Warm Orange</button>
+                    <button class="btn" onclick="changeTheme('modern-purple')">Modern Purple</button>
+                </div>
+                <div class="config-item">
+                    <h4>Position Options</h4>
+                    <button class="btn" onclick="changePosition('bottom-right')">Bottom Right</button>
+                    <button class="btn" onclick="changePosition('bottom-left')">Bottom Left</button>
+                </div>
+                <div class="config-item">
+                    <h4>Widget Controls</h4>
+                    <button class="btn" onclick="openWidget()">Open Widget</button>
+                    <button class="btn" onclick="closeWidget()">Close Widget</button>
+                    <button class="btn" onclick="sendTestMessage()">Send Test Message</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>📋 Integration Checklist</h2>
+            <ul>
+                <li>✅ Add configuration script before widget script</li>
+                <li>✅ Include widget script from CDN</li>
+                <li>✅ Customize theme and positioning</li>
+                <li>✅ Set organization-specific greeting</li>
+                <li>✅ Configure API endpoint</li>
+                <li>✅ Test widget functionality</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h2>🔧 Advanced Configuration</h2>
+            <div class="code-block">
+                window.ChatbotConfig = {
+                // Required settings
+                apiEndpoint: 'https://your-domain.com/api/chat',
+                orgId: 'your-organization-id',
+
+                // Appearance
+                theme: 'corporate-blue', // or 'warm-orange', 'modern-purple'
+                position: 'bottom-right', // or 'bottom-left'
+
+                // Behavior
+                greeting: 'Welcome! How can we help?',
+                autoOpen: false, // Auto-open on page load
+                showTyping: true, // Show typing indicators
+
+                // Optional branding
+                logo: '/path/to/your/logo.png',
+                primaryColor: '#007bff',
+                companyName: 'Your Company'
+                };
+            </div>
+        </div>
+    </div>
+
+    <!-- Widget Configuration -->
+    <script>
+        window.ChatbotConfig = {
+            apiEndpoint: '<%= process.env.BASE_URL || 'http://localhost:3000' %>/api/chat',
+                theme: '<%= process.env.DEFAULT_WIDGET_THEME || 'corporate - blue' %>',
+            position: '<%= process.env.DEFAULT_WIDGET_POSITION || 'bottom- right' %>',
+                greeting: '<%= process.env.DEFAULT_GREETING || 'Hello! How can I help you today ? ' %>',
+                    orgId: '<%= process.env.DEFAULT_ORG_ID || 'demo - org' %>',
+                        autoOpen: false,
+                            showTyping: true
+        };
+
+        // Demo functions for testing
+        function changeTheme(theme) {
+            if (window.ChatbotWidget) {
+                window.ChatbotWidget.updateConfig({ theme: theme });
+            }
+        }
+
+        function changePosition(position) {
+            if (window.ChatbotWidget) {
+                window.ChatbotWidget.updateConfig({ position: position });
+            }
+        }
+
+        function openWidget() {
+            if (window.ChatbotWidget) {
+                window.ChatbotWidget.open();
+            }
+        }
+
+        function closeWidget() {
+            if (window.ChatbotWidget) {
+                window.ChatbotWidget.close();
+            }
+        }
+
+        function sendTestMessage() {
+            if (window.ChatbotWidget) {
+                window.ChatbotWidget.sendMessage('This is a test message from the demo page!');
+            }
+        }
+    </script>
+
+    <!-- Load Widget Script -->
+    <script src="<%= process.env.BASE_URL || 'http://localhost:3000' %>/widget/chatbot-widget.js"></script>
+</body>
+
+</html>

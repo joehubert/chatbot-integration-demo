@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPM Package Integration Test - Chatbot Widget Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .demo-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #28a745;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #0056b3;
+        }
+
+        .nav-links a.active {
+            background: #28a745;
+        }
+
+        .step {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+        }
+
+        .step h3 {
+            color: #28a745;
+            margin-top: 0;
+        }
+
+        .framework-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            background: #28a745;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📦 NPM Package Integration Demo</h1>
+            <p>Modern Build System Integration Test</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="/">CDN Integration</a>
+            <a href="/npm-test" class="active">NPM Package</a>
+            <a href="/iframe-test">Iframe Embed</a>
+            <a href="/mobile-test">Mobile Test</a>
+            <a href="/corporate-sim">Corporate Demo</a>
+            <a href="/ecommerce-sim">E-commerce Demo</a>
+        </div>
+
+        <div class="demo-section">
+            <h2>📋 NPM Package Integration</h2>
+            <p>This page demonstrates how to integrate the chatbot widget as an NPM package in modern JavaScript
+                applications using bundlers like Webpack, Vite, or Parcel.</p>
+        </div>
+
+        <div class="framework-tabs">
+            <button class="tab-btn active" onclick="showTab('vanilla')">Vanilla JS</button>
+            <button class="tab-btn" onclick="showTab('react')">React</button>
+            <button class="tab-btn" onclick="showTab('vue')">Vue.js</button>
+            <button class="tab-btn" onclick="showTab('angular')">Angular</button>
+        </div>
+
+        <!-- Vanilla JS Tab -->
+        <div id="vanilla" class="tab-content active">
+            <div class="step">
+                <h3>Step 1: Install Package</h3>
+                <div class="code-block">
+                    npm install @yourorg/chatbot-widget
+                    # or
+                    yarn add @yourorg/chatbot-widget
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>Step 2: Import and Initialize</h3>
+                <div class="code-block">
+                    // main.js or app.js
+                    import ChatbotWidget from '@yourorg/chatbot-widget';
+                    import '@yourorg/chatbot-widget/dist/styles.css';
+
+                    // Initialize widget
+                    const widget = new ChatbotWidget({
+                    apiEndpoint: 'https://your-api.com/chat',
+                    theme: 'corporate-blue',
+                    position: 'bottom-right',
+                    orgId: 'your-org-id',
+                    greeting: 'Hello! How can I help you today?'
+                    });
+
+                    // Initialize on DOM ready
+                    document.addEventListener('DOMContentLoaded', () => {
+                    widget.init();
+                    });
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>Step 3: Advanced Usage</h3>
+                <div class="code-block">
+                    // Control widget programmatically
+                    widget.open();
+                    widget.close();
+                    widget.sendMessage('Hello from the app!');
+
+                    // Listen to events
+                    widget.on('message', (data) => {
+                    console.log('New message:', data);
+                    });
+
+                    widget.on('open', () => {
+                    console.log('Widget opened');
+                    });
+
+                    widget.on('close', () => {
+                    console.log('Widget closed');
+                    });
+                </div>
+            </div>
+        </div>
+
+        <!-- React Tab -->
+        <div id="react" class="tab-content">
+            <div class="step">
+                <h3>Step 1: Install Package</h3>
+                <div class="code-block">
+                    npm install @yourorg/chatbot-widget-react
+                    # or
+                    yarn add @yourorg/chatbot-widget-react
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>Step 2: Component Usage</h3>
+                <div class="code-block">
+                    // App.js
+                    import React from 'react';
+                    import ChatbotWidget from '@yourorg/chatbot-widget-react';
+
+                    function App() {
+                    const widgetConfig = {
+                    apiEndpoint: 'https://your-api.com/chat',
+                    theme: 'corporate-blue',
+                    position: 'bottom-right',
+                    orgId: 'your-org-id',
+                    greeting: 'Hello! How can I help you today?'
+                    };
+
+                    const handleMessage = (message) => {
+                    console.log('New message:', message);
+                    };
+
+                    return (
+                    &lt;div className="App"&gt;
+                    &lt;h1&gt;My React App&lt;/h1&gt;
+
+                    &lt;ChatbotWidget
+                    config={widgetConfig}
+                    onMessage={handleMessage}
+                    onOpen={() =&gt; console.log('Widget opened')}
+                    onClose={() =&gt; console.log('Widget closed')}
+                    /&gt;
+                    &lt;/div&gt;
+                    );
+                    }
+
+                    export default App;
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>Step 3: Hook Usage</h3>
+                <div class="code-block">
+                    // Using the custom hook
+                    import { useChatbot } from '@yourorg/chatbot-widget-react';
+
+                    function MyComponent() {
+                    const {
+                    isOpen,
+                    messages,
+                    sendMessage,
+                    openWidget,
+                    closeWidget
+                    } = useChatbot({
+                    apiEndpoint: 'https://your-api.com/chat',
+                    orgId: 'your-org-id'
+                    });
+
+                    return (
+                    &lt;div&gt;
+                    &lt;button onClick={openWidget}&gt;
+                    Open Chat ({messages.length} messages)
+                    &lt;/button&gt;
+
+                    &lt;button onClick={() =&gt; sendMessage('Hello!')}&gt;
+                    Send Test Message
+                    &lt;/button&gt;
+                    &lt;/div&gt;
+                    );
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Vue.js Tab -->
+        <div id="vue" class="tab-content">
+            <div class="step">
+                <h3>Step 1: Install Package</h3>
+                <div class="code-block">
+                    npm install @yourorg/chatbot-widget-vue
+                    # or
+                    yarn add @yourorg/chatbot-widget-vue
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>Step 2: Component Registration</h3>
+                <div class="code-block">
+                    // main.js
+                    import { createApp } from 'vue';
+                    import ChatbotWidget from '@yourorg/chatbot-widget-vue';
+                    import App from './App.vue';
+
+                    const app = createApp(App);
+                    app.component('ChatbotWidget', ChatbotWidget);
+                    app.mount('#app');
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>Step 3: Template Usage</h3>
+                <div class="code-block">
+                    &lt;!-- App.vue --&gt;
+                    &lt;template&gt;
+                    &lt;div id="app"&gt;
+                    &lt;h1&gt;My Vue App&lt;/h1&gt;
+
+                    &lt;ChatbotWidget
+                    :config="widgetConfig"
+                    @message="handleMessage"
+                    @open="handleOpen"
+                    @close="handleClose"
+                    /&gt;
+                    &lt;/div&gt;
+                    &lt;/template&gt;
+
+                    &lt;script&gt;
+                    export default {
+                    name: 'App',
+                    data() {
+                    return {
+                    widgetConfig: {
+                    apiEndpoint: 'https://your-api.com/chat',
+                    theme: 'corporate-blue',
+                    position: 'bottom-right',
+                    orgId: 'your-org-id',
+                    greeting: 'Hello! How can I help you today?'
+                    }
+                    };
+                    },
+                    methods: {
+                    handleMessage(message) {
+                    console.log('New message:', message);
+                    },
+                    handleOpen() {
+                    console.log('Widget opened');
+                    },
+                    handleClose() {
+                    console.log('Widget closed');
+                    }
+                    }
+                    };
+                    &lt;/script&gt;
+                </div>
+            </div>
+        </div>
+
+        <!-- Angular Tab -->
+        <div id="angular" class="tab-content">
+            <div class="step">
+                <h3>Step 1: Install Package</h3>
+                <div class="code-block">
+                    npm install @yourorg/chatbot-widget-angular
+                    # or
+                    yarn add @yourorg/chatbot-widget-angular
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>Step 2: Module Import</h3>
+                <div class="code-block">
+                    // app.module.ts
+                    import { NgModule } from '@angular/core';
+                    import { BrowserModule } from '@angular/platform-browser';
+                    import { ChatbotWidgetModule } from '@yourorg/chatbot-widget-angular';
+
+                    import { AppComponent } from './app.component';
+
+                    @NgModule({
+                    declarations: [AppComponent],
+                    imports: [
+                    BrowserModule,
+                    ChatbotWidgetModule
+                    ],
+                    providers: [],
+                    bootstrap: [AppComponent]
+                    })
+                    export class AppModule { }
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>Step 3: Component Usage</h3>
+                <div class="code-block">
+                    // app.component.ts
+                    import { Component } from '@angular/core';
+
+                    @Component({
+                    selector: 'app-root',
+                    template: `
+                    &lt;h1&gt;My Angular App&lt;/h1&gt;
+
+                    &lt;chatbot-widget
+                    [config]="widgetConfig"
+                    (message)="onMessage($event)"
+                    (open)="onOpen()"
+                    (close)="onClose()"&gt;
+                    &lt;/chatbot-widget&gt;
+                    `
+                    })
+                    export class AppComponent {
+                    widgetConfig = {
+                    apiEndpoint: 'https://your-api.com/chat',
+                    theme: 'corporate-blue',
+                    position: 'bottom-right',
+                    orgId: 'your-org-id',
+                    greeting: 'Hello! How can I help you today?'
+                    };
+
+                    onMessage(message: any) {
+                    console.log('New message:', message);
+                    }
+
+                    onOpen() {
+                    console.log('Widget opened');
+                    }
+
+                    onClose() {
+                    console.log('Widget closed');
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>✅ Benefits of NPM Integration</h2>
+            <ul>
+                <li><strong>Type Safety:</strong> TypeScript definitions included</li>
+                <li><strong>Tree Shaking:</strong> Only import what you need</li>
+                <li><strong>Version Control:</strong> Lock to specific versions</li>
+                <li><strong>Bundle Optimization:</strong> Integrates with your build process</li>
+                <li><strong>Framework Support:</strong> Native components for popular frameworks</li>
+                <li><strong>Hot Reload:</strong> Development-friendly updates</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h2>📋 Package.json Dependencies</h2>
+            <div class="code-block">
+                {
+                "dependencies": {
+                "@yourorg/chatbot-widget": "^1.0.0"
+                },
+                "devDependencies": {
+                "@types/yourorg__chatbot-widget": "^1.0.0"
+                }
+                }
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Simulate NPM package widget (since this is a test harness)
+        window.ChatbotConfig = {
+            apiEndpoint: '<%= process.env.BASE_URL || 'http://localhost:3000' %>/api/chat',
+                theme: '<%= process.env.DEFAULT_WIDGET_THEME || 'corporate - blue' %>',
+            position: '<%= process.env.DEFAULT_WIDGET_POSITION || 'bottom- right' %>',
+                greeting: '<%= process.env.DEFAULT_GREETING || 'Hello! How can I help you today ? ' %>',
+                    orgId: '<%= process.env.DEFAULT_ORG_ID || 'demo - org' %>',
+                        autoOpen: false,
+                            showTyping: true,
+                                // Indicate this is simulating NPM package integration
+                                integrationMethod: 'npm-package'
+        };
+    </script>
+
+    <!-- Load Widget Script (simulating NPM package) -->
+    <script src="<%= process.env.BASE_URL || 'http://localhost:3000' %>/widget/chatbot-widget.js"></script>
+</body>
+
+</html>

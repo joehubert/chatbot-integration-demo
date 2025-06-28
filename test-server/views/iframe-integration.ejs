@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iframe Integration Test - Chatbot Widget Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .demo-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #0056b3;
+        }
+
+        .nav-links a.active {
+            background: #17a2b8;
+        }
+
+        .iframe-demo {
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+            background: white;
+        }
+
+        .iframe-demo h4 {
+            background: #e9ecef;
+            margin: 0;
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .iframe-demo iframe {
+            width: 100%;
+            border: none;
+            display: block;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #856404;
+        }
+
+        .security-note {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #0c5460;
+        }
+
+        .btn {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #138496;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🖼️ Iframe Integration Demo</h1>
+            <p>Sandboxed Widget Embedding Test</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="/">CDN Integration</a>
+            <a href="/npm-test">NPM Package</a>
+            <a href="/iframe-test" class="active">Iframe Embed</a>
+            <a href="/mobile-test">Mobile Test</a>
+            <a href="/corporate-sim">Corporate Demo</a>
+            <a href="/ecommerce-sim">E-commerce Demo</a>
+        </div>
+
+        <div class="demo-section">
+            <h2>🔒 Iframe Integration Method</h2>
+            <p>This page demonstrates how to embed the chatbot widget using an iframe. This method provides maximum
+                security isolation and is ideal for environments with strict Content Security Policies or when you need
+                to completely sandbox the widget.</p>
+        </div>
+
+        <div class="security-note">
+            <h3>🛡️ Security Benefits</h3>
+            <ul>
+                <li><strong>Complete Isolation:</strong> Widget runs in its own security context</li>
+                <li><strong>CSP Compliance:</strong> No inline scripts or styles in parent page</li>
+                <li><strong>Domain Separation:</strong> Widget can be served from different domain</li>
+                <li><strong>Resource Protection:</strong> Widget cannot access parent page resources</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h2>📋 Basic Iframe Implementation</h2>
+            <div class="code-block">
+                &lt;!-- Simple iframe embed --&gt;
+                &lt;iframe
+                src="<%= process.env.BASE_URL || 'http://localhost:3000' %>
+                    /widget/iframe?orgId=demo-org&theme=corporate-blue"
+                    width="400"
+                    height="600"
+                    frameborder="0"
+                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                    title="Customer Support Chat"&gt;
+                    &lt;/iframe&gt;
+            </div>
+        </div>
+
+        <div class="iframe-demo">
+            <h4>Live Demo: Basic Iframe Widget</h4>
+            <iframe
+                src="<%= process.env.BASE_URL || 'http://localhost:3000' %>/widget/iframe?orgId=<%= process.env.DEFAULT_ORG_ID || 'demo-org' %>&theme=<%= process.env.DEFAULT_WIDGET_THEME || 'corporate-blue' %>"
+                width="100%" height="500" frameborder="0"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups" title="Customer Support Chat">
+            </iframe>
+        </div>
+
+        <div class="demo-section">
+            <h2>⚙️ Advanced Configuration</h2>
+            <div class="code-block">
+                &lt;!-- Advanced iframe with custom parameters --&gt;
+                &lt;iframe
+                src="<%= process.env.BASE_URL || 'http://localhost:3000' %>
+                    /widget/iframe?orgId=your-org&amp;theme=modern-purple&amp;position=center&amp;greeting=Welcome%20to%20our%20support!"
+                    width="100%"
+                    height="600"
+                    frameborder="0"
+                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups
+                    allow-top-navigation-by-user-activation"
+                    allow="microphone; camera; geolocation"
+                    loading="lazy"
+                    title="Customer Support Chat Widget"
+                    style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"&gt;
+                    &lt;p&gt;Your browser doesn't support iframes. Please &lt;a href="<%= process.env.BASE_URL
+                        || 'http://localhost:3000' %>/widget/standalone"&gt;click here&lt;/a&gt; to open chat in a new
+                        window.&lt;/p&gt;
+                        &lt;/iframe&gt;
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>📐 Responsive Iframe Design</h2>
+            <div class="code-block">
+                &lt;!-- Responsive iframe container --&gt;
+                &lt;div class="chatbot-iframe-container"&gt;
+                &lt;iframe
+                src="<%= process.env.BASE_URL || 'http://localhost:3000' %>/widget/iframe?orgId=demo-org"
+                    frameborder="0"
+                    sandbox="allow-scripts allow-same-origin allow-forms"
+                    title="Customer Support Chat"&gt;
+                    &lt;/iframe&gt;
+                    &lt;/div&gt;
+
+                    &lt;style&gt;
+                    .chatbot-iframe-container {
+                    position: relative;
+                    width: 100%;
+                    max-width: 400px;
+                    height: 600px;
+                    margin: 0 auto;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    }
+
+                    .chatbot-iframe-container iframe {
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    }
+
+                    /* Mobile responsive */
+                    @media (max-width: 768px) {
+                    .chatbot-iframe-container {
+                    height: 500px;
+                    max-width: 100%;
+                    margin: 10px;
+                    }
+                    }
+                    &lt;/style&gt;
+            </div>
+        </div>
+
+        <div class="iframe-demo">
+            <h4>Live Demo: Responsive Iframe Widget</h4>
+            <div
+                style="position: relative; width: 100%; max-width: 400px; height: 500px; margin: 0 auto; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                <iframe
+                    src="<%= process.env.BASE_URL || 'http://localhost:3000' %>/widget/iframe?orgId=<%= process.env.DEFAULT_ORG_ID || 'demo-org' %>&theme=warm-orange"
+                    width="100%" height="100%" frameborder="0" sandbox="allow-scripts allow-same-origin allow-forms"
+                    title="Customer Support Chat">
+                </iframe>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🔧 URL Parameters</h2>
+            <table
+                style="width: 100%; border-collapse: collapse; background: white; border-radius: 6px; overflow: hidden;">
+                <thead>
+                    <tr style="background: #e9ecef;">
+                        <th style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">Parameter</th>
+                        <th style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">Description</th>
+                        <th style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 12px; border-bottom: 1px solid #dee2e6;"><code>orgId</code></td>
+                        <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">Organization identifier</td>
+                        <td style="padding: 12px; border-bottom: 1px solid #dee2e6;"><code>orgId=acme-corp</code></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border-bottom: 1px solid #dee2e6;"><code>theme</code></td>
+                        <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">Visual theme</td>
+                        <td style="padding: 12px; border-bottom: 1px solid #dee2e6;"><code>theme=corporate-blue</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border-bottom: 1px solid #dee2e6;"><code>position</code></td>
+                        <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">Widget position in iframe</td>
+                        <td style="padding: 12px; border-bottom: 1px solid #dee2e6;"><code>position=center</code></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border-bottom: 1px solid #dee2e6;"><code>greeting</code></td>
+                        <td style="padding: 12px; border-bottom: 1px solid #dee2e6;">Initial greeting message</td>
+                        <td style="padding: 12px; border-bottom: 1px solid #dee2e6;"><code>greeting=Hello!</code></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px;"><code>autoOpen</code></td>
+                        <td style="padding: 12px;">Auto-open chat on load</td>
+                        <td style="padding: 12px;"><code>autoOpen=true</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="warning">
+            <h3>⚠️ Iframe Considerations</h3>
+            <ul>
+                <li><strong>Height Management:</strong> Set appropriate iframe height for your content</li>
+                <li><strong>Cross-Origin:</strong> Ensure proper CORS headers if using different domains</li>
+                <li><strong>Loading Performance:</strong> Consider lazy loading for below-fold iframes</li>
+                <li><strong>Accessibility:</strong> Always include descriptive title attribute</li>
+                <li><strong>Fallback Content:</strong> Provide fallback for browsers that don't support iframes</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h2>🚀 JavaScript Communication</h2>
+            <p>For advanced use cases, you can communicate between the parent page and the iframe widget:</p>
+            <div class="code-block">
+                &lt;!-- Parent page script --&gt;
+                &lt;script&gt;
+                // Listen for messages from iframe
+                window.addEventListener('message', function(event) {
+                // Verify origin for security
+                if (event.origin !== '<%= process.env.BASE_URL || 'http://localhost:3000' %>') return;
+
+                    if (event.data.type === 'chatbot-message') {
+                    console.log('New chat message:', event.data.message);
+                    }
+
+                    if (event.data.type === 'chatbot-resize') {
+                    // Dynamically resize iframe
+                    const iframe = document.getElementById('chatbot-iframe');
+                    iframe.style.height = event.data.height + 'px';
+                    }
+                    });
+
+                    // Send message to iframe
+                    function sendToWidget(message) {
+                    const iframe = document.getElementById('chatbot-iframe');
+                    iframe.contentWindow.postMessage({
+                    type: 'send-message',
+                    message: message
+                    }, '<%= process.env.BASE_URL || 'http://localhost:3000' %>');
+                        }
+                        &lt;/script&gt;
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>📱 Mobile-Optimized Iframe</h2>
+            <div class="code-block">
+                &lt;!-- Mobile-friendly iframe implementation --&gt;
+                &lt;div class="mobile-chatbot-container"&gt;
+                &lt;iframe
+                src="<%= process.env.BASE_URL || 'http://localhost:3000' %>
+                    /widget/iframe?orgId=demo-org&amp;mobile=true"
+                    frameborder="0"
+                    sandbox="allow-scripts allow-same-origin allow-forms"
+                    title="Mobile Chat Support"&gt;
+                    &lt;/iframe&gt;
+                    &lt;/div&gt;
+
+                    &lt;style&gt;
+                    .mobile-chatbot-container {
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    width: 350px;
+                    height: 500px;
+                    z-index: 1000;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                    }
+
+                    .mobile-chatbot-container iframe {
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    }
+
+                    @media (max-width: 768px) {
+                    .mobile-chatbot-container {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 0;
+                    }
+                    }
+                    &lt;/style&gt;
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>✅ Iframe Integration Checklist</h2>
+            <ul>
+                <li>✅ Set appropriate sandbox attributes for security</li>
+                <li>✅ Include descriptive title for accessibility</li>
+                <li>✅ Configure URL parameters for your organization</li>
+                <li>✅ Set responsive dimensions</li>
+                <li>✅ Add fallback content for unsupported browsers</li>
+                <li>✅ Test cross-origin communication if needed</li>
+                <li>✅ Verify mobile responsiveness</li>
+                <li>✅ Configure Content Security Policy if required</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎛️ Test Controls</h2>
+            <button class="btn" onclick="loadNewTheme()">Load Different Theme</button>
+            <button class="btn" onclick="toggleAutoOpen()">Toggle Auto-Open</button>
+            <button class="btn" onclick="changeGreeting()">Change Greeting</button>
+        </div>
+    </div>
+
+    <script>
+        let currentTheme = '<%= process.env.DEFAULT_WIDGET_THEME || 'corporate-blue' %>';
+        let autoOpen = false;
+        const themes = ['corporate-blue', 'warm-orange', 'modern-purple'];
+
+        function loadNewTheme() {
+            const currentIndex = themes.indexOf(currentTheme);
+            const nextIndex = (currentIndex + 1) % themes.length;
+            currentTheme = themes[nextIndex];
+
+            const iframe = document.querySelector('.iframe-demo iframe');
+            const baseUrl = '<%= process.env.BASE_URL || 'http://localhost:3000' %>';
+                iframe.src = `${baseUrl}/widget/iframe?orgId=<%= process.env.DEFAULT_ORG_ID || 'demo-org' %>&theme=${currentTheme}`;
+        }
+
+        function toggleAutoOpen() {
+            autoOpen = !autoOpen;
+            const iframe = document.querySelector('.iframe-demo iframe');
+            const baseUrl = '<%= process.env.BASE_URL || 'http://localhost:3000' %>';
+                iframe.src = `${baseUrl}/widget/iframe?orgId=<%= process.env.DEFAULT_ORG_ID || 'demo-org' %>&theme=${currentTheme}&autoOpen=${autoOpen}`;
+        }
+
+        function changeGreeting() {
+            const greetings = [
+                'Hello! How can I help you today?',
+                'Welcome! What can I do for you?',
+                'Hi there! Need assistance?',
+                'Greetings! How may I assist you?'
+            ];
+            const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+            const encodedGreeting = encodeURIComponent(randomGreeting);
+
+            const iframe = document.querySelector('.iframe-demo iframe');
+            const baseUrl = '<%= process.env.BASE_URL || 'http://localhost:3000' %>';
+                iframe.src = `${baseUrl}/widget/iframe?orgId=<%= process.env.DEFAULT_ORG_ID || 'demo-org' %>&theme=${currentTheme}&greeting=${encodedGreeting}`;
+        }
+    </script>
+</body>
+
+</html>

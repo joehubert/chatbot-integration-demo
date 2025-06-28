@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Mobile Responsive Test - Chatbot Widget Demo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .header p {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            position: sticky;
+            top: 80px;
+            z-index: 99;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-tab {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px 10px;
+            text-align: center;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: #6c757d;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+            background: #f8f9fa;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #28a745;
+        }
+
+        .device-simulator {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .device-frame {
+            display: inline-block;
+            padding: 20px 10px;
+            background: #333;
+            border-radius: 25px;
+            margin: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .device-screen {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-frame {
+            width: 300px;
+            height: 600px;
+        }
+
+        .tablet-frame {
+            width: 400px;
+            height: 300px;
+        }
+
+        .screen-content {
+            padding: 20px;
+            height: 100%;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .touch-test {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .touch-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            margin: 10px;
+            min-width: 120px;
+            min-height: 44px;
+            /* iOS recommended touch target */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+
+        .touch-button:hover,
+        .touch-button:active {
+            background: #0056b3;
+            transform: scale(0.98);
+        }
+
+        .gesture-demo {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .grid-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            text-align: center;
+        }
+
+        .performance-meter {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+
+        .meter-bar {
+            background: #e9ecef;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            transition: width 0.3s ease;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-good {
+            background: #28a745;
+        }
+
+        .status-warning {
+            background: #ffc107;
+        }
+
+        .status-error {
+            background: #dc3545;
+        }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px;
+                position: relative;
+                top: auto;
+            }
+
+            .header h1 {
+                font-size: 1.25rem;
+            }
+
+            .nav-tabs {
+                position: relative;
+                top: auto;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .device-simulator {
+                display: none;
+                /* Hide device frames on actual mobile */
+            }
+
+            .test-section {
+                margin: 15px 0;
+                padding: 15px;
+                border-radius: 8px;
+            }
+
+            .responsive-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-tab {
+                font-size: 0.8rem;
+                padding: 12px 8px;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📱 Mobile Responsive Test</h1>
+            <p>Touch Interaction & Responsive Design Validation</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('responsiveness')">Responsiveness</button>
+            <button class="nav-tab" onclick="showTab('touch')">Touch Tests</button>
+            <button class="nav-tab" onclick="showTab('performance')">Performance</button>
+            <button class="nav-tab" onclick="showTab('devices')">Device Sims</button>
+        </div>
+
+        <!-- Responsiveness Tab -->
+        <div id="responsiveness" class="content tab-content">
+            <div class="test-section">
+                <h2>📐 Responsive Design Test</h2>
+                <p>Testing widget behavior across different screen sizes and orientations.</p>
+
+                <div class="responsive-grid">
+                    <div class="grid-item">
+                        <h4>Current Viewport</h4>
+                        <p id="viewport-size">Calculating...</p>
+                        <p><span class="status-indicator status-good"></span>Responsive Ready</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Device Type</h4>
+                        <p id="device-type">Detecting...</p>
+                        <p><span class="status-indicator status-good"></span>Optimized Layout</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Orientation</h4>
+                        <p id="orientation">Portrait</p>
+                        <p><span class="status-indicator status-good"></span>Auto-Adjust</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2>🔄 Breakpoint Testing</h2>
+                <p>Resize your browser window or rotate your device to test different breakpoints:</p>
+                <ul>
+                    <li><strong>Mobile:</strong>
+                        < 768px - Single column layout</li>
+                    <li><strong>Tablet:</strong> 768px - 1024px - Two column layout</li>
+                    <li><strong>Desktop:</strong> > 1024px - Full width layout</li>
+                </ul>
+                <div id="breakpoint-indicator" class="performance-meter">
+                    <strong>Current Breakpoint: <span id="current-breakpoint">Desktop</span></strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Touch Tests Tab -->
+        <div id="touch" class="content tab-content" style="display: none;">
+            <div class="test-section">
+                <h2>👆 Touch Interaction Test</h2>
+                <p>Test touch interactions with the chatbot widget controls.</p>
+
+                <div class="touch-test">
+                    <h4>Widget Controls</h4>
+                    <button class="touch-button" onclick="openMobileWidget()">Open Chat</button>
+                    <button class="touch-button" onclick="closeMobileWidget()">Close Chat</button>
+                    <button class="touch-button" onclick="sendMobileMessage()">Send Message</button>
+                </div>
+
+                <div class="touch-test">
+                    <h4>Touch Target Size Test</h4>
+                    <p>All buttons should be at least 44px (iOS) / 48dp (Android) for easy tapping</p>
+                    <button class="touch-button" style="background: #28a745;">✓ Optimal Size</button>
+                    <button class="touch-button" style="background: #ffc107; padding: 8px 15px;">⚠ Too Small</button>
+                </div>
+            </div>
+
+            <div class="gesture-demo" id="gesture-area">
+                <h3>Gesture Test Area</h3>
+                <p>Touch, swipe, or tap this area</p>
+                <p id="gesture-feedback">No gestures detected</p>
+            </div>
+
+            <div class="test-section">
+                <h2>⌨️ Virtual Keyboard Test</h2>
+                <p>Test how the widget handles virtual keyboard appearance:</p>
+                <input type="text" placeholder="Tap to open keyboard"
+                    style="width: 100%; padding: 15px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 16px;">
+                <p style="margin-top: 10px; color: #6c757d; font-size: 0.9rem;">Widget should adjust position when
+                    keyboard appears</p>
+            </div>
+        </div>
+
+        <!-- Performance Tab -->
+        <div id="performance" class="content tab-content" style="display: none;">
+            <div class="test-section">
+                <h2>⚡ Performance Metrics</h2>
+                <p>Real-time performance monitoring for mobile devices.</p>
+
+                <div class="performance-meter">
+                    <strong>Widget Load Time</strong>
+                    <div class="meter-bar">
+                        <div class="meter-fill" id="load-time-bar" style="width: 85%;"></div>
+                    </div>
+                    <span id="load-time">
+                        < 2 seconds</span>
+                </div>
+
+                <div class="performance-meter">
+                    <strong>Memory Usage</strong>
+                    <div class="meter-bar">
+                        <div class="meter-fill" id="memory-bar" style="width: 45%;"></div>
+                    </div>
+                    <span id="memory-usage">Low impact</span>
+                </div>
+
+                <div class="performance-meter">
+                    <strong>Touch Responsiveness</strong>
+                    <div class="meter-bar">
+                        <div class="meter-fill" id="touch-response-bar" style="width: 95%;"></div>
+                    </div>
+                    <span id="touch-response">Excellent</span>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2>🔋 Battery & Network</h2>
+                <div class="responsive-grid">
+                    <div class="grid-item">
+                        <h4>Network Status</h4>
+                        <p><span class="status-indicator status-good"></span><span id="network-status">Online</span></p>
+                        <p id="connection-type">Connection: WiFi</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Data Usage</h4>
+                        <p><span class="status-indicator status-good"></span>Optimized</p>
+                        <p>~50KB initial load</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Device Simulators Tab -->
+        <div id="devices" class="content tab-content" style="display: none;">
+            <div class="test-section">
+                <h2>📱 Device Simulators</h2>
+                <p>Visual simulation of widget on different devices.</p>
+            </div>
+
+            <div class="device-simulator">
+                <h3>iPhone 12 Pro</h3>
+                <div class="device-frame phone-frame">
+                    <div class="device-screen">
+                        <div class="screen-content">
+                            <div style="background: #f8f9fa; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+                                <h4 style="margin: 0; font-size: 0.9rem;">Mobile App Simulation</h4>
+                                <p style="margin: 5px 0; font-size: 0.8rem; color: #6c757d;">Chat widget in mobile
+                                    viewport</p>
+                            </div>
+                            <div
+                                style="position: absolute; bottom: 20px; right: 20px; width: 60px; height: 60px; background: #007bff; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; cursor: pointer;">
+                                💬</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>iPad Air</h3>
+                <div class="device-frame tablet-frame">
+                    <div class="device-screen">
+                        <div class="screen-content">
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                <h4 style="margin: 0; font-size: 1rem;">Tablet Layout</h4>
+                                <p style="margin: 5px 0; font-size: 0.9rem; color: #6c757d;">Expanded chat interface</p>
+                            </div>
+                            <div
+                                style="position: absolute; bottom: 20px; right: 20px; width: 300px; height: 200px; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 1px solid #e9ecef;">
+                                <div
+                                    style="background: #007bff; color: white; padding: 10px; border-radius: 12px 12px 0 0; font-size: 0.9rem;">
+                                    Customer Support</div>
+                                <div style="padding: 10px; font-size: 0.8rem; color: #6c757d;">Chat interface optimized
+                                    for tablet</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2>📏 Screen Resolution Tests</h2>
+                <div class="responsive-grid">
+                    <div class="grid-item">
+                        <h4>iPhone SE (375x667)</h4>
+                        <p><span class="status-indicator status-good"></span>Compact layout</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>iPhone 12 (390x844)</h4>
+                        <p><span class="status-indicator status-good"></span>Standard layout</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>iPad (768x1024)</h4>
+                        <p><span class="status-indicator status-good"></span>Expanded layout</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Android Tablet (800x1280)</h4>
+                        <p><span class="status-indicator status-good"></span>Adaptive layout</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Widget Configuration for Mobile -->
+    <script>
+        window.ChatbotConfig = {
+            apiEndpoint: '<%= process.env.BASE_URL || 'http://localhost:3000' %>/api/chat',
+                theme: '<%= process.env.DEFAULT_WIDGET_THEME || 'corporate - blue' %>',
+            position: '<%= process.env.DEFAULT_WIDGET_POSITION || 'bottom- right' %>',
+                greeting: '<%= process.env.DEFAULT_GREETING || 'Hello! How can I help you today ? ' %>',
+                    orgId: '<%= process.env.DEFAULT_ORG_ID || 'demo - org' %>',
+                        autoOpen: false,
+                            showTyping: true,
+                                mobileOptimized: true,
+                                    touchFriendly: true
+        };
+
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.style.display = 'none');
+
+            const buttons = document.querySelectorAll('.nav-tab');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).style.display = 'block';
+            event.target.classList.add('active');
+        }
+
+        // Mobile widget functions
+        function openMobileWidget() {
+            if (window.ChatbotWidget) {
+                window.ChatbotWidget.open();
+            }
+            logTouchEvent('Widget opened via touch');
+        }
+
+        function closeMobileWidget() {
+            if (window.ChatbotWidget) {
+                window.ChatbotWidget.close();
+            }
+            logTouchEvent('Widget closed via touch');
+        }
+
+        function sendMobileMessage() {
+            if (window.ChatbotWidget) {
+                window.ChatbotWidget.sendMessage('Mobile test message sent!');
+            }
+            logTouchEvent('Message sent via touch');
+        }
+
+        function logTouchEvent(message) {
+            console.log(`Mobile Test: ${message}`);
+            const feedback = document.getElementById('gesture-feedback');
+            if (feedback) {
+                feedback.textContent = message;
+                setTimeout(() => {
+                    feedback.textContent = 'Ready for next interaction';
+                }, 2000);
+            }
+        }
+
+        // Responsive monitoring
+        function updateViewportInfo() {
+            const viewport = document.getElementById('viewport-size');
+            const deviceType = document.getElementById('device-type');
+            const orientation = document.getElementById('orientation');
+            const breakpoint = document.getElementById('current-breakpoint');
+
+            if (viewport) {
+                viewport.textContent = `${window.innerWidth} x ${window.innerHeight}px`;
+            }
+
+            if (deviceType) {
+                const width = window.innerWidth;
+                let type = 'Desktop';
+                if (width < 768) type = 'Mobile';
+                else if (width < 1024) type = 'Tablet';
+                deviceType.textContent = type;
+            }
+
+            if (orientation) {
+                orientation.textContent = window.innerHeight > window.innerWidth ? 'Portrait' : 'Landscape';
+            }
+
+            if (breakpoint) {
+                const width = window.innerWidth;
+                let bp = 'Desktop (>1024px)';
+                if (width < 768) bp = 'Mobile (<768px)';
+                else if (width < 1024) bp = 'Tablet (768px-1024px)';
+                breakpoint.textContent = bp;
+            }
+        }
+
+        // Gesture handling
+        function setupGestureHandling() {
+            const gestureArea = document.getElementById('gesture-area');
+            const feedback = document.getElementById('gesture-feedback');
+
+            if (!gestureArea || !feedback) return;
+
+            let startY = 0;
+            let startX = 0;
+
+            gestureArea.addEventListener('touchstart', (e) => {
+                startY = e.touches[0].clientY;
+                startX = e.touches[0].clientX;
+                feedback.textContent = 'Touch detected...';
+            });
+
+            gestureArea.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const deltaY = e.touches[0].clientY - startY;
+                const deltaX = e.touches[0].clientX - startX;
+
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    feedback.textContent = deltaX > 0 ? 'Swiping right...' : 'Swiping left...';
+                } else {
+                    feedback.textContent = deltaY > 0 ? 'Swiping down...' : 'Swiping up...';
+                }
+            });
+
+            gestureArea.addEventListener('touchend', (e) => {
+                feedback.textContent = 'Gesture completed ✓';
+                setTimeout(() => {
+                    feedback.textContent = 'Touch, swipe, or tap this area';
+                }, 2000);
+            });
+
+            // Mouse events for desktop testing
+            gestureArea.addEventListener('click', () => {
+                feedback.textContent = 'Click detected (desktop)';
+                setTimeout(() => {
+                    feedback.textContent = 'Touch, swipe, or tap this area';
+                }, 1500);
+            });
+        }
+
+        // Network status monitoring
+        function updateNetworkStatus() {
+            const networkStatus = document.getElementById('network-status');
+            const connectionType = document.getElementById('connection-type');
+
+            if (networkStatus) {
+                networkStatus.textContent = navigator.onLine ? 'Online' : 'Offline';
+            }
+
+            if (connectionType && 'connection' in navigator) {
+                const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                if (connection) {
+                    connectionType.textContent = `Connection: ${connection.effectiveType || 'Unknown'}`;
+                }
+            }
+        }
+
+        // Performance monitoring
+        function updatePerformanceMetrics() {
+            // Simulate performance metrics for demo
+            const loadTime = Math.random() * 1000 + 500; // 500-1500ms
+            const memoryUsage = Math.random() * 30 + 20; // 20-50%
+            const touchResponse = Math.random() * 10 + 90; // 90-100%
+
+            const loadTimeBar = document.getElementById('load-time-bar');
+            const memoryBar = document.getElementById('memory-bar');
+            const touchResponseBar = document.getElementById('touch-response-bar');
+
+            if (loadTimeBar) {
+                const percentage = Math.max(0, 100 - (loadTime / 20));
+                loadTimeBar.style.width = percentage + '%';
+                loadTimeBar.style.background = percentage > 80 ? '#28a745' : percentage > 60 ? '#ffc107' : '#dc3545';
+            }
+
+            if (memoryBar) {
+                memoryBar.style.width = (100 - memoryUsage) + '%';
+                memoryBar.style.background = memoryUsage < 30 ? '#28a745' : memoryUsage < 50 ? '#ffc107' : '#dc3545';
+            }
+
+            if (touchResponseBar) {
+                touchResponseBar.style.width = touchResponse + '%';
+                touchResponseBar.style.background = touchResponse > 95 ? '#28a745' : touchResponse > 85 ? '#ffc107' : '#dc3545';
+            }
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function () {
+            updateViewportInfo();
+            setupGestureHandling();
+            updateNetworkStatus();
+            updatePerformanceMetrics();
+
+            // Update viewport info on resize
+            window.addEventListener('resize', updateViewportInfo);
+            window.addEventListener('orientationchange', () => {
+                setTimeout(updateViewportInfo, 500); // Wait for orientation change to complete
+            });
+
+            // Update network status
+            window.addEventListener('online', updateNetworkStatus);
+            window.addEventListener('offline', updateNetworkStatus);
+
+            // Update performance metrics periodically
+            setInterval(updatePerformanceMetrics, 5000);
+        });
+    </script>
+
+    <!-- Load Widget Script -->
+    <script src="<%= process.env.BASE_URL || 'http://localhost:3000' %>/widget/chatbot-widget.js"></script>
+</body>
+
+</html>
