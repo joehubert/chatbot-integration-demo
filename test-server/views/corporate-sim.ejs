@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= process.env.CORPORATE_DEMO_NAME || 'Acme Corporation' %> - Professional Services & Consulting
+    </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        /* Demo Notice */
+        .demo-notice {
+            background: linear-gradient(45deg, #2c5aa0, #1e3d6f);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            font-size: 0.9rem;
+        }
+
+        .demo-notice a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 10px;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 40px;
+            z-index: 1000;
+            margin-top: 40px;
+        }
+
+        .header-top {
+            background: #f8f9fa;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .header-top-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .header-main {
+            padding: 20px 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c5aa0;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo::before {
+            content: "🏢";
+            margin-right: 10px;
+            font-size: 2.5rem;
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav a:hover {
+            color: #2c5aa0;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: #2c5aa0;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .cta-button {
+            background: #2c5aa0;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #1e3d6f;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            padding: 15px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 160px;
+        }
+
+        .hero-btn-primary {
+            background: white;
+            color: #2c5aa0;
+        }
+
+        .hero-btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #2c5aa0;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            text-align: center;
+            padding: 40px 30px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(44, 90, 160, 0.1);
+            background: white;
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: #2c5aa0;
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            color: #6c757d;
+            line-height: 1.8;
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.2rem;
+            color: #2c5aa0;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            color: #6c757d;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c5aa0;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .about-image {
+            background: linear-gradient(135deg, #2c5aa0, #1e3d6f);
+            border-radius: 10px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial {
+            background: #f8f9fa;
+            padding: 40px 30px;
+            border-radius: 10px;
+            border-left: 4px solid #2c5aa0;
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            font-size: 4rem;
+            color: #2c5aa0;
+            position: absolute;
+            top: 10px;
+            left: 30px;
+            opacity: 0.3;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #2c5aa0;
+            padding-left: 30px;
+        }
+
+        .testimonial-company {
+            color: #6c757d;
+            font-size: 0.9rem;
+            padding-left: 30px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: #2c5aa0;
+            color: white;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .contact p {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-item-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .contact-item h4 {
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e3d6f;
+            color: white;
+            padding: 50px 0 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #e9ecef;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid #495057;
+            color: #e9ecef;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .demo-notice {
+                font-size: 0.8rem;
+                padding: 10px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+                gap: 20px;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Demo Notice -->
+    <div class="demo-notice">
+        🏢 DEMO MODE: Corporate Website Integration Test
+        <a href="/">← Back to Widget Tests</a>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="header-top-content">
+                <div>📞 Call us: (555) 123-4567 | 📧 Email: info@acmecorp.com</div>
+                <div>Mon-Fri 9AM-6PM EST | Free Consultation Available</div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="header-content">
+                <div class="logo">
+                    <%= process.env.CORPORATE_DEMO_NAME || 'Acme Corporation' %>
+                </div>
+                <nav class="nav">
+                    <a href="#home">Home</a>
+                    <a href="#services">Services</a>
+                    <a href="#about">About</a>
+                    <a href="#testimonials">Testimonials</a>
+                    <a href="#contact">Contact</a>
+                    <a href="#consultation" class="cta-button">Free Consultation</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Strategic Business Solutions</h1>
+            <p>Empowering organizations with expert consulting, innovative strategies, and proven results for over 20
+                years.</p>
+            <div class="hero-buttons">
+                <a href="#consultation" class="hero-btn hero-btn-primary">Get Free Consultation</a>
+                <a href="#services" class="hero-btn hero-btn-secondary">Our Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Professional Services</h2>
+                <p>Comprehensive business solutions tailored to drive growth, efficiency, and sustainable success for
+                    your organization.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card" onclick="handleServiceClick('strategy')">
+                    <span class="service-icon">📊</span>
+                    <h3>Strategic Planning</h3>
+                    <p>Develop comprehensive business strategies, market analysis, and roadmaps for sustainable growth
+                        and competitive advantage.</p>
+                </div>
+                <div class="service-card" onclick="handleServiceClick('operations')">
+                    <span class="service-icon">⚙️</span>
+                    <h3>Operations Optimization</h3>
+                    <p>Streamline processes, improve efficiency, and implement best practices to maximize operational
+                        performance and reduce costs.</p>
+                </div>
+                <div class="service-card" onclick="handleServiceClick('finance')">
+                    <span class="service-icon">💰</span>
+                    <h3>Financial Advisory</h3>
+                    <p>Expert financial planning, risk management, and investment strategies to optimize your financial
+                        performance and stability.</p>
+                </div>
+                <div class="service-card" onclick="handleServiceClick('technology')">
+                    <span class="service-icon">💻</span>
+                    <h3>Digital Transformation</h3>
+                    <p>Modernize your business with cutting-edge technology solutions, automation, and digital workflow
+                        optimization.</p>
+                </div>
+                <div class="service-card" onclick="handleServiceClick('hr')">
+                    <span class="service-icon">👥</span>
+                    <h3>Human Resources</h3>
+                    <p>Talent acquisition, organizational development, and HR strategy to build high-performing teams
+                        and company culture.</p>
+                </div>
+                <div class="service-card" onclick="handleServiceClick('marketing')">
+                    <span class="service-icon">📈</span>
+                    <h3>Marketing & Growth</h3>
+                    <p>Brand strategy, market positioning, and growth initiatives to expand your market reach and
+                        customer base.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Excellence in Business Consulting</h2>
+                    <p>For over two decades, <%= process.env.CORPORATE_DEMO_NAME || 'Acme Corporation' %> has been a
+                            trusted partner to businesses across industries, providing strategic guidance and innovative
+                            solutions that drive measurable results.</p>
+                    <p>Our team of experienced consultants combines deep industry knowledge with proven methodologies to
+                        help organizations navigate complex challenges, capitalize on opportunities, and achieve
+                        sustainable growth.</p>
+                    <p>We pride ourselves on delivering personalized service, maintaining long-term partnerships, and
+                        consistently exceeding client expectations through our commitment to excellence and innovation.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Clients Served</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">20</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">95%</div>
+                            <div class="stat-label">Client Retention</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">$2.5B</div>
+                            <div class="stat-label">Value Created</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    🏆
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Client Success Stories</h2>
+                <p>Hear from organizations that have transformed their business with our strategic guidance and
+                    expertise.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        The strategic planning process with <%= process.env.CORPORATE_DEMO_NAME || 'Acme Corporation' %>
+                            completely transformed our approach to market expansion. Their insights helped us increase
+                            revenue by 150% in just 18 months.
+                    </div>
+                    <div class="testimonial-author">Sarah Johnson</div>
+                    <div class="testimonial-company">CEO, TechStart Solutions</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        Their operations optimization recommendations saved us over $500K annually while improving
+                        customer satisfaction scores by 40%. Exceptional ROI on our consulting investment.
+                    </div>
+                    <div class="testimonial-author">Michael Chen</div>
+                    <div class="testimonial-company">COO, Manufacturing Plus</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        The digital transformation roadmap they developed positioned us perfectly for the future. We're
+                        now industry leaders in innovation and operational efficiency.
+                    </div>
+                    <div class="testimonial-author">Dr. Emily Rodriguez</div>
+                    <div class="testimonial-company">Director, Healthcare Innovations</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Ready to Transform Your Business?</h2>
+            <p>Schedule a free consultation today and discover how our expertise can drive your organization's success.
+            </p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-item-icon">📞</div>
+                    <h4>Call Us</h4>
+                    <p>(555) 123-4567</p>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-icon">📧</div>
+                    <h4>Email Us</h4>
+                    <p>info@acmecorp.com</p>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-icon">📍</div>
+                    <h4>Visit Us</h4>
+                    <p>123 Business Ave<br>Corporate City, NY 10001</p>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-icon">🕒</div>
+                    <h4>Business Hours</h4>
+                    <p>Mon-Fri: 9AM-6PM EST<br>Sat: 10AM-2PM EST</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul>
+                    <li><a href="#strategy">Strategic Planning</a></li>
+                    <li><a href="#operations">Operations Optimization</a></li>
+                    <li><a href="#finance">Financial Advisory</a></li>
+                    <li><a href="#technology">Digital Transformation</a></li>
+                    <li><a href="#hr">Human Resources</a></li>
+                    <li><a href="#marketing">Marketing & Growth</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#team">Our Team</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                    <li><a href="#news">News & Insights</a></li>
+                    <li><a href="#case-studies">Case Studies</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#whitepapers">White Papers</a></li>
+                    <li><a href="#webinars">Webinars</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#tools">Business Tools</a></li>
+                    <li><a href="#newsletter">Newsletter</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="#consultation">Free Consultation</a></li>
+                    <li><a href="#support">Client Support</a></li>
+                    <li><a href="#locations">Office Locations</a></li>
+                    <li><a href="#partnership">Partnerships</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 <%= process.env.CORPORATE_DEMO_NAME || 'Acme Corporation' %>. All rights reserved. | Privacy
+                    Policy | Terms of Service | Professional Standards</p>
+        </div>
+    </footer>
+
+    <!-- Widget Configuration -->
+    <script>
+        window.ChatbotConfig = {
+            apiEndpoint: '<%= process.env.BASE_URL || 'http://localhost:3000' %>/api/chat',
+                theme: 'corporate-blue',
+            position: 'bottom-right',
+            greeting: 'Hello! How can I help you with our business consulting services today?',
+            orgId: '<%= process.env.DEFAULT_ORG_ID || 'demo- org' %>',
+                autoOpen: false,
+                    showTyping: true,
+                        companyName: '<%= process.env.CORPORATE_DEMO_NAME || 'Acme Corporation' %>',
+                            primaryColor: '#2c5aa0',
+                                logo: '<%= process.env.CORPORATE_DEMO_LOGO || ' / images / logos / acme - corp.png' %>',
+                                    // Corporate specific context
+                                    context: 'corporate-website',
+                                        availableActions: [
+                                            'Schedule Consultation',
+                                            'Service Information',
+                                            'Pricing Inquiry',
+                                            'Case Studies',
+                                            'Contact Information'
+                                        ]
+        };
+
+        // Corporate website functionality
+        function handleServiceClick(service) {
+            console.log('Service clicked:', service);
+
+            // Open chatbot for service inquiry
+            if (window.ChatbotWidget) {
+                window.ChatbotWidget.open();
+                setTimeout(() => {
+                    let message = '';
+                    switch (service) {
+                        case 'strategy':
+                            message = 'I\'m interested in learning more about your strategic planning services. Can you provide details on your approach and pricing?';
+                            break;
+                        case 'operations':
+                            message = 'We\'re looking to optimize our operations. What does your operations consulting process involve?';
+                            break;
+                        case 'finance':
+                            message = 'I\'d like to know more about your financial advisory services. How can you help improve our financial performance?';
+                            break;
+                        case 'technology':
+                            message = 'Our company needs digital transformation. What\'s your approach to technology modernization?';
+                            break;
+                        case 'hr':
+                            message = 'We need help with human resources strategy. What HR consulting services do you offer?';
+                            break;
+                        case 'marketing':
+                            message = 'I\'m interested in your marketing and growth services. How do you help companies expand their market reach?';
+                            break;
+                        default:
+                            message = 'I\'m interested in learning more about your consulting services. Can you help me understand how you can assist our organization?';
+                    }
+                    window.ChatbotWidget.sendMessage(message);
+                }, 500);
+            }
+        }
+
+        // Add interactive features
+        document.addEventListener('DOMContentLoaded', function () {
+            // Simulate "live" features
+            console.log('🏢 Corporate Demo Site Loaded');
+            console.log('💬 Chatbot widget integrated for client consultation');
+            console.log('📊 Try clicking services, contact info, or consultation buttons');
+
+            // Add click handlers for consultation buttons
+            document.querySelectorAll('[href="#consultation"]').forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    if (window.ChatbotWidget) {
+                        window.ChatbotWidget.open();
+                        setTimeout(() => {
+                            window.ChatbotWidget.sendMessage('I\'d like to schedule a free consultation to discuss how you can help my business. What information do you need from me?');
+                        }, 500);
+                    }
+                });
+            });
+
+            // Add smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add hover effects for service cards
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-10px)';
+                });
+
+                card.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Simulate business inquiries
+            setTimeout(() => {
+                // Auto-open chatbot for demonstration (optional)
+                if (Math.random() < 0.2) { // 20% chance
+                    setTimeout(() => {
+                        if (window.ChatbotWidget && !window.ChatbotWidget.isOpen) {
+                            window.ChatbotWidget.open();
+                            window.ChatbotWidget.sendMessage('Hello! I noticed you\'re browsing our services. Is there a particular area where we can help your business?');
+                        }
+                    }, 8000); // After 8 seconds
+                }
+            }, 3000);
+
+            // Add some business simulation effects
+            setInterval(() => {
+                // Simulate "real business activity" (demo feature)
+                if (Math.random() < 0.05) { // 5% chance every interval
+                    console.log('📈 Demo: New consultation request received');
+                }
+            }, 15000); // Every 15 seconds
+        });
+
+        // Corporate-specific chat triggers
+        setTimeout(() => {
+            // Trigger consultation reminder for users who spend time on services
+            let servicesViewed = 0;
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    servicesViewed++;
+                    if (servicesViewed >= 2 && window.ChatbotWidget && !window.ChatbotWidget.isOpen) {
+                        setTimeout(() => {
+                            window.ChatbotWidget.open();
+                            window.ChatbotWidget.sendMessage('I see you\'re exploring multiple services. Would you like to schedule a consultation to discuss how we can create a comprehensive solution for your business?');
+                        }, 2000);
+                    }
+                });
+            });
+
+            // Contact form simulation
+            document.querySelectorAll('.contact-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    const contactType = this.querySelector('h4').textContent;
+
+                    if (window.ChatbotWidget) {
+                        window.ChatbotWidget.open();
+                        setTimeout(() => {
+                            let message = '';
+                            switch (contactType) {
+                                case 'Call Us':
+                                    message = 'I\'d prefer to schedule a phone consultation. What times are available this week?';
+                                    break;
+                                case 'Email Us':
+                                    message = 'I\'d like to send some detailed information about my business needs via email. What\'s the best way to do this?';
+                                    break;
+                                case 'Visit Us':
+                                    message = 'I\'m interested in visiting your office for an in-person consultation. How do I schedule an appointment?';
+                                    break;
+                                case 'Business Hours':
+                                    message = 'I need to know if you offer consultations outside of regular business hours for urgent matters.';
+                                    break;
+                                default:
+                                    message = 'I\'d like to get in touch to discuss our business needs. What\'s the best way to start?';
+                            }
+                            window.ChatbotWidget.sendMessage(message);
+                        }, 500);
+                    }
+                });
+            });
+        }, 2000);
+
+        // Testimonial interaction
+        document.querySelectorAll('.testimonial').forEach(testimonial => {
+            testimonial.addEventListener('click', function () {
+                if (window.ChatbotWidget) {
+                    window.ChatbotWidget.open();
+                    setTimeout(() => {
+                        window.ChatbotWidget.sendMessage('I\'m impressed by the success stories I\'m reading. Can you share more details about similar results you\'ve achieved for businesses like mine?');
+                    }, 500);
+                }
+            });
+        });
+    </script>
+
+    <!-- Load Chatbot Widget -->
+    <script src="<%= process.env.BASE_URL || 'http://localhost:3000' %>/widget/chatbot-widget.js"></script>
+</body>
+
+</html>

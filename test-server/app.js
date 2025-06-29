@@ -1,4 +1,4 @@
-// test-server/app.js - Simplified version without rate limiting
+// test-server/app.js - Fixed version with proper error handling
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -44,6 +44,27 @@ app.get('/iframe-test', (req, res) => {
     res.render('iframe-integration', {
         title: 'Iframe Integration Test',
         description: 'Testing chatbot in sandboxed iframe'
+    });
+});
+
+app.get('/mobile-test', (req, res) => {
+    res.render('mobile-test', {
+        title: 'Mobile Responsive Test',
+        description: 'Testing mobile optimization and touch interactions'
+    });
+});
+
+app.get('/corporate-sim', (req, res) => {
+    res.render('corporate-sim', {
+        title: 'Corporate Website Simulation',
+        description: 'Testing chatbot in professional corporate environment'
+    });
+});
+
+app.get('/ecommerce-sim', (req, res) => {
+    res.render('ecommerce-sim', {
+        title: 'E-commerce Integration Demo',
+        description: 'Testing chatbot in online retail environment'
     });
 });
 
@@ -106,31 +127,100 @@ app.get('/widget/chatbot-widget.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/js/chatbot-widget.js'));
 });
 
+// Serve widget themes CSS
+app.get('/css/themes/:theme.css', (req, res) => {
+    const { theme } = req.params;
+    const validThemes = ['corporate-blue', 'warm-orange', 'modern-purple'];
+
+    if (!validThemes.includes(theme)) {
+        return res.status(404).render('error', {
+            errorCode: '404',
+            errorMessage: `Theme '${theme}' not found`,
+            errorStack: null,
+            originalUrl: req.originalUrl
+        });
+    }
+
+    res.setHeader('Content-Type', 'text/css');
+    res.setHeader('Cache-Control', 'no-cache'); // No caching for development
+    res.sendFile(path.join(__dirname, 'public/css/themes', `${theme}.css`));
+});
+
+// Iframe widget endpoint
+app.get('/widget/iframe', (req, res) => {
+    const { orgId, theme, position, greeting, autoOpen } = req.query;
+
+    // Create a minimal HTML page for iframe embedding
+    const iframeHtml = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chatbot Widget</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                background: transparent;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            window.ChatbotConfig = {
+                apiEndpoint: '${process.env.BASE_URL || `http://localhost:${PORT}`}/api/chat',
+                theme: '${theme || process.env.DEFAULT_WIDGET_THEME || 'corporate-blue'}',
+                position: '${position || 'center'}',
+                greeting: '${greeting || process.env.DEFAULT_GREETING || 'Hello! How can I help you today?'}',
+                orgId: '${orgId || process.env.DEFAULT_ORG_ID || 'demo-org'}',
+                autoOpen: ${autoOpen === 'true'},
+                showTyping: true,
+                mobileOptimized: true
+            };
+        </script>
+        <script src="${process.env.BASE_URL || `http://localhost:${PORT}`}/widget/chatbot-widget.js"></script>
+    </body>
+    </html>
+    `;
+
+    res.setHeader('Content-Type', 'text/html');
+    res.send(iframeHtml);
+});
+
 // Health check
 app.get('/health', (req, res) => {
     res.json({
         status: 'healthy',
         timestamp: new Date().toISOString(),
-        environment: 'test-harness'
+        environment: 'test-harness',
+        port: PORT
     });
 });
 
 // 404 handler
 app.use((req, res) => {
     res.status(404).render('error', {
-        title: '404 Not Found',
-        message: 'Page not found',
-        error: {}
+        errorCode: '404',
+        errorMessage: `Page not found: ${req.originalUrl}`,
+        errorStack: null,
+        originalUrl: req.originalUrl
     });
 });
 
-// Error handling
+// Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).render('error', {
-        title: 'Error',
-        message: 'Something went wrong!',
-        error: process.env.NODE_ENV === 'development' ? err : {}
+    console.error('Error occurred:', err.stack);
+
+    // Determine error code
+    const errorCode = err.status || err.statusCode || 500;
+
+    res.status(errorCode).render('error', {
+        errorCode: errorCode.toString(),
+        errorMessage: err.message || 'Something went wrong!',
+        errorStack: process.env.NODE_ENV === 'development' ? err.stack : null,
+        originalUrl: req.originalUrl
     });
 });
 
@@ -140,8 +230,12 @@ app.listen(PORT, () => {
     console.log(`   • CDN Integration: http://localhost:${PORT}/`);
     console.log(`   • NPM Integration: http://localhost:${PORT}/npm-test`);
     console.log(`   • Iframe Integration: http://localhost:${PORT}/iframe-test`);
+    console.log(`   • Mobile Test: http://localhost:${PORT}/mobile-test`);
+    console.log(`   • Corporate Demo: http://localhost:${PORT}/corporate-sim`);
+    console.log(`   • E-commerce Demo: http://localhost:${PORT}/ecommerce-sim`);
     console.log(`   • Health Check: http://localhost:${PORT}/health`);
     console.log(`   • Mock Chat API: POST http://localhost:${PORT}/api/chat/message`);
+    console.log(`\n💡 Use Ctrl+C to stop the server`);
 });
 
 module.exports = app;
