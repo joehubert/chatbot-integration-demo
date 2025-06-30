@@ -11,7 +11,20 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Basic middleware
-app.use(helmet());
+if (process.env.NODE_ENV === 'production') {
+    app.use(helmet());
+} else {
+    // Development - more permissive CSP
+    app.use(helmet({
+        contentSecurityPolicy: {
+            directives: {
+                ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+                "script-src": ["'self'", "'unsafe-inline'"],
+                "style-src": ["'self'", "'unsafe-inline'"],
+            },
+        },
+    }));
+}
 app.use(compression());
 app.use(morgan('combined'));
 app.use(cors());

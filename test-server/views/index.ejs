@@ -125,19 +125,18 @@
                 &lt;!-- Step 1: Configure the widget --&gt;
                 &lt;script&gt;
                 window.ChatbotConfig = {
-                apiEndpoint: '<%= process.env.BASE_URL || 'http://localhost:3000' %>/api/chat',
-                    theme: '<%= process.env.DEFAULT_WIDGET_THEME || 'corporate-blue' %>',
-                        position: '<%= process.env.DEFAULT_WIDGET_POSITION || 'bottom-right' %>',
-                            greeting: '<%= process.env.DEFAULT_GREETING || 'Hello! How can I help you today?' %>',
-                                orgId: '<%= process.env.DEFAULT_ORG_ID || 'demo-org' %>',
-                                    autoOpen: false,
-                                    showTyping: true
-                                    };
-                                    &lt;/script&gt;
+                apiEndpoint: 'http://localhost:3000/api/chat',
+                theme: 'corporate-blue',
+                position: 'bottom-right',
+                greeting: 'Hello! How can I help you today?',
+                orgId: 'demo-org',
+                autoOpen: false,
+                showTyping: true
+                };
+                &lt;/script&gt;
 
-                                    &lt;!-- Step 2: Load the widget script --&gt;
-                                    &lt;script src="<%= process.env.BASE_URL || 'http://localhost:3000' %>
-                                        /widget/chatbot-widget.js"&gt;&lt;/script&gt;
+                &lt;!-- Step 2: Load the widget script --&gt;
+                &lt;script src="http://localhost:3000/widget/chatbot-widget.js"&gt;&lt;/script&gt;
             </div>
         </div>
 
@@ -200,18 +199,148 @@
                 };
             </div>
         </div>
+        <!-- Add this content to your existing index.ejs file -->
+        <!-- Find the existing demo-section with "🔧 Advanced Configuration" and add this new section AFTER it -->
+
+        <div class="demo-section">
+            <h2>🧪 Web Components Shell Test</h2>
+            <p>Testing the new Web Components implementation with Shadow DOM isolation. The widget should automatically
+                choose the best rendering method for your browser.</p>
+
+            <div class="config-options">
+                <div class="config-item">
+                    <h4>Integration Method</h4>
+                    <p>Current method: <span id="integration-method">Detecting...</span></p>
+                    <p>Browser support: <span id="browser-support">Checking...</span></p>
+                </div>
+                <div class="config-item">
+                    <h4>Shell Responses Test</h4>
+                    <button class="btn" onclick="sendShellTestMessage()">Send "test" Message</button>
+                    <button class="btn" onclick="sendShellIntegrationMessage()">Send "integration" Message</button>
+                    <button class="btn" onclick="sendShellFeaturesMessage()">Send "features" Message</button>
+                </div>
+                <div class="config-item">
+                    <h4>Widget Events</h4>
+                    <p>Widget status: <span id="widget-status">Loading...</span></p>
+                    <p>Last event: <span id="last-event">None</span></p>
+                </div>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin: 15px 0;">
+                <h4>🔍 What to Test:</h4>
+                <ul>
+                    <li><strong>Open the widget</strong> - Click the chat launcher in bottom-right corner</li>
+                    <li><strong>Try shell messages</strong> - Type "test", "integration", "features", or "help"</li>
+                    <li><strong>Check CSS isolation</strong> - Widget styling should be completely separate from page
+                    </li>
+                    <li><strong>Test responsiveness</strong> - Resize browser window or test on mobile</li>
+                    <li><strong>Verify fallback</strong> - Test in different browsers (automatic iframe fallback for old
+                        browsers)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Add this JavaScript section BEFORE the existing "Load Widget Script" script tag -->
+        <script>
+            // Web Components testing functions
+            function sendShellTestMessage() {
+                openWidget();
+                setTimeout(() => {
+                    const widget = document.querySelector('ai-chatbot-widget');
+                    if (widget) {
+                        // Trigger the shell chatbot with a test message
+                        const event = new CustomEvent('test-message', { detail: 'test' });
+                        widget.dispatchEvent(event);
+                    }
+                }, 500);
+            }
+
+            function sendShellIntegrationMessage() {
+                openWidget();
+                setTimeout(() => {
+                    const widget = document.querySelector('ai-chatbot-widget');
+                    if (widget) {
+                        const event = new CustomEvent('test-message', { detail: 'integration' });
+                        widget.dispatchEvent(event);
+                    }
+                }, 500);
+            }
+
+            function sendShellFeaturesMessage() {
+                openWidget();
+                setTimeout(() => {
+                    const widget = document.querySelector('ai-chatbot-widget');
+                    if (widget) {
+                        const event = new CustomEvent('test-message', { detail: 'features' });
+                        widget.dispatchEvent(event);
+                    }
+                }, 500);
+            }
+
+            // Listen for widget events to display status
+            document.addEventListener('chatbot-ready', (e) => {
+                console.log('🤖 Chatbot Ready:', e.detail);
+                document.getElementById('widget-status').textContent = 'Ready';
+                document.getElementById('last-event').textContent = 'Widget initialized';
+
+                // Display integration method
+                const method = e.detail.method || 'unknown';
+                document.getElementById('integration-method').textContent =
+                    method === 'webcomponent' ? 'Web Components (Shadow DOM)' :
+                        method === 'iframe' ? 'Iframe Fallback' : method;
+            });
+
+            document.addEventListener('chatbot-opened', (e) => {
+                console.log('📖 Chatbot Opened');
+                document.getElementById('widget-status').textContent = 'Open';
+                document.getElementById('last-event').textContent = 'Widget opened';
+            });
+
+            document.addEventListener('chatbot-closed', (e) => {
+                console.log('📕 Chatbot Closed');
+                document.getElementById('widget-status').textContent = 'Closed';
+                document.getElementById('last-event').textContent = 'Widget closed';
+            });
+
+            document.addEventListener('chatbot-message', (e) => {
+                console.log('💬 Message:', e.detail);
+                document.getElementById('last-event').textContent =
+                    `Message: ${e.detail.sender} - ${e.detail.message.substring(0, 30)}...`;
+            });
+
+            // Check browser support
+            document.addEventListener('DOMContentLoaded', function () {
+                const supportsWebComponents = 'customElements' in window &&
+                    'attachShadow' in Element.prototype &&
+                    'getRootNode' in Element.prototype;
+
+                document.getElementById('browser-support').textContent =
+                    supportsWebComponents ? 'Full Web Components Support ✅' : 'Limited Support (will use iframe) ⚠️';
+
+                // If no widget ready event after 3 seconds, show fallback status
+                setTimeout(() => {
+                    if (document.getElementById('widget-status').textContent === 'Loading...') {
+                        document.getElementById('widget-status').textContent = 'Fallback mode';
+                        document.getElementById('integration-method').textContent = 'Legacy integration';
+                    }
+                }, 3000);
+            });
+        </script>
+
+
+
     </div>
 
     <!-- Widget Configuration -->
     <script>
         window.ChatbotConfig = {
-            apiEndpoint: '<%= process.env.BASE_URL || 'http://localhost:3000' %>/api/chat',
-                theme: '<%= process.env.DEFAULT_WIDGET_THEME || 'corporate - blue' %>',
-            position: '<%= process.env.DEFAULT_WIDGET_POSITION || 'bottom- right' %>',
-                greeting: '<%= process.env.DEFAULT_GREETING || 'Hello! How can I help you today ? ' %>',
-                    orgId: '<%= process.env.DEFAULT_ORG_ID || 'demo - org' %>',
-                        autoOpen: false,
-                            showTyping: true
+            apiEndpoint: '<%= process.env.BASE_URL || "http://localhost:3000" %>/api/chat',
+            theme: '<%= process.env.DEFAULT_WIDGET_THEME || "corporate-blue" %>',
+            position: '<%= process.env.DEFAULT_WIDGET_POSITION || "bottom-right" %>',
+            greeting: '<%= process.env.DEFAULT_GREETING || "Hello! How can I help you today?" %>',
+            orgId: '<%= process.env.DEFAULT_ORG_ID || "demo-org" %>',
+            autoOpen: false,
+            showTyping: true
         };
 
         // Demo functions for testing
@@ -247,7 +376,8 @@
     </script>
 
     <!-- Load Widget Script -->
-    <script src="<%= process.env.BASE_URL || 'http://localhost:3000' %>/widget/chatbot-widget.js"></script>
+    <script src="<%= (process.env.BASE_URL || 'http://localhost:3000') + '/widget/chatbot-widget.js' %>"></script>
+
 </body>
 
 </html>
